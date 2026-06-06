@@ -1,6 +1,6 @@
 ---
 name: git-ship
-description: Clean up the working tree and ship changes to GitHub in well-formed commits. Smart-stages real changes (skipping junk and secrets), fixes .gitignore, splits the work into logical Conventional-Commit commits with messages generated from the diff, then pushes after one confirmation. Use when the user asks to commit and push, "clean up git and ship my code", or wrap up and get changes onto GitHub.
+description: Clean up the working tree and ship changes to GitHub in well-formed commits, and optionally merge the branch. Smart-stages real changes (skipping junk and secrets), fixes .gitignore, splits the work into logical Conventional-Commit commits with messages generated from the diff, pushes after one confirmation, and on request merges the feature branch into the default branch (solo-friendly local merge, abort-on-conflict). Use when the user asks to commit and push, "clean up git and ship my code", wrap up and get changes onto GitHub, or merge/integrate a branch into main.
 ---
 
 # git-ship
@@ -76,6 +76,59 @@ confirmation before anything leaves the machine.
 
 8. **Report**: commits created (hashes + subjects) and the pushed branch. Do
    **not** open a pull request unless the user explicitly asks.
+
+## Optional: merge phase
+
+Run this **only** when the user asks to merge (e.g. "ship and merge",
+"integrate this branch", "merge it into main"). Tuned for a solo workflow:
+local merge, no PR. Skip entirely otherwise.
+
+1. **Identify target.** Default target is the repo's default branch
+   (`git symbolic-ref refs/remotes/origin/HEAD`, falling back to `main` then
+   `master`). The source is the current feature branch.
+
+2. **Sync first (target → branch).** Fetch and, if the target has new commits,
+   merge them *into the feature branch* so integration is clean:
+
+   ```bash
+   git fetch origin
+   git merge origin/<target>      # while on the feature branch
+   ```
+
+   If this conflicts, **abort and report** (see conflict rule) — do not proceed
+   to step 4.
+
+3. **Show the merge plan and get ONE confirmation:**
+
+   ```
+   Merge plan:
+   - sync: origin/main → feature-rate-limit  (3 commits behind)
+   - merge: feature-rate-limit → main        (local, then push)
+   - then: delete local feature-rate-limit?  (optional)
+   Proceed? (yes / no)
+   ```
+
+4. **Integrate (branch → target)** once confirmed:
+
+   ```bash
+   git switch <target>
+   git merge --no-ff <feature>    # keeps the feature grouped as one unit
+   git push origin <target>
+   ```
+
+5. **Tidy up.** Offer to delete the merged feature branch locally
+   (`git branch -d <feature>`) and on the remote (`git push origin --delete
+   <feature>`). Only with confirmation.
+
+6. **Report** the merge commit hash and the updated target branch.
+
+**Conflict rule (applies to both merge directions):** on any conflict, run
+`git merge --abort` to restore the prior state, then report the conflicting
+files and stop. Never auto-resolve silently.
+
+**Shared-repo note:** if the repo has branch protection or CI gates you want
+enforced, use the PR route instead — open a PR with `pr-describe` and merge it
+on GitHub rather than locally.
 
 ## Composes with
 
