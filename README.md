@@ -9,7 +9,8 @@ into a release workflow.
 
 | Skill | What it does | Stands alone | Composes with |
 |-------|--------------|:---:|---|
-| [`commit-craft`](skills/commit-craft/SKILL.md) | Write Conventional-Commit messages from your current changes | ✓ | → `release-notes` |
+| [`commit-craft`](skills/commit-craft/SKILL.md) | Write Conventional-Commit messages from your current changes | ✓ | → `release-notes`, `git-ship` |
+| [`git-ship`](skills/git-ship/SKILL.md) | Clean up the tree, split into logical commits, and push to GitHub (one confirmation) | ✓ | ← `commit-craft` |
 | [`release-notes`](skills/release-notes/SKILL.md) | Build categorized changelog / release notes between two refs | ✓ | ← `commit-craft` · → `pr-describe` |
 | [`pr-describe`](skills/pr-describe/SKILL.md) | Draft a PR title + description from your branch diff | ✓ | ← `release-notes`, `repo-map` |
 | [`dep-check`](skills/dep-check/SKILL.md) | Audit dependencies for outdated & vulnerable packages (npm/pip/cargo) | ✓ | — |
