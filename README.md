@@ -17,6 +17,7 @@ into a release workflow.
 | [`test-scaffold`](skills/test-scaffold/SKILL.md) | Generate a test-file skeleton matching the project's framework | ✓ | — |
 | [`repo-map`](skills/repo-map/SKILL.md) | Produce a concise architecture / onboarding map of a repo | ✓ | → `pr-describe` |
 | [`context-handoff`](skills/context-handoff/SKILL.md) | Capture the conversation to `.claude/handoff.md` + emit a restart prompt for a clean `/clear` | ✓ | — |
+| [`dotnet-db-modernizer`](skills/dotnet-db-modernizer/SKILL.md) | Audit & modernize DB-access code in legacy .NET (Web Forms/WinForms, C#/VB) via analyze→plan→approve→implement | ✓ | — |
 
 ### The "ship a release" chain
 
@@ -62,6 +63,18 @@ ln -s "$(pwd)/skills/commit-craft" /path/to/project/.claude/skills/commit-craft
 
 Then start (or restart) Claude Code and invoke a skill with `/` or just ask for
 the task it describes — Claude matches on the `description`.
+
+### Packaged `.skill` files
+
+Some skills are also distributed as a single `.skill` bundle in [`dist/`](dist/)
+(a zip produced by skill-creator's `package_skill.py`). Install a `.skill` by
+uploading it in the Claude apps' skill UI, or unzip it into `~/.claude/skills/`.
+Re-package after editing a skill:
+
+```bash
+python3 -m scripts.package_skill /abs/path/to/skills/<name> /abs/path/to/dist
+# run from the skill-creator directory
+```
 
 ## Adding a new skill
 
