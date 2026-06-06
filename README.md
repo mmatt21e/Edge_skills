@@ -18,6 +18,7 @@ into a release workflow.
 | [`repo-map`](skills/repo-map/SKILL.md) | Produce a concise architecture / onboarding map of a repo | ✓ | → `pr-describe` |
 | [`context-handoff`](skills/context-handoff/SKILL.md) | Capture the conversation to `.claude/handoff.md` + emit a restart prompt for a clean `/clear` | ✓ | — |
 | [`dotnet-db-modernizer`](skills/dotnet-db-modernizer/SKILL.md) | Audit & modernize DB-access code in legacy .NET (Web Forms/WinForms, C#/VB) via analyze→plan→approve→implement | ✓ | — |
+| [`iterative-improver`](skills/iterative-improver/SKILL.md) | Improve anything (code/prose/prompt/…) via an autonomous improver+critic refine loop for N rounds, on a copy/branch | ✓ | — |
 
 ### The "ship a release" chain
 
