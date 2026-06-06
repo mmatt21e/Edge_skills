@@ -15,6 +15,7 @@ into a release workflow.
 | [`dep-check`](skills/dep-check/SKILL.md) | Audit dependencies for outdated & vulnerable packages (npm/pip/cargo) | ✓ | — |
 | [`test-scaffold`](skills/test-scaffold/SKILL.md) | Generate a test-file skeleton matching the project's framework | ✓ | — |
 | [`repo-map`](skills/repo-map/SKILL.md) | Produce a concise architecture / onboarding map of a repo | ✓ | → `pr-describe` |
+| [`context-handoff`](skills/context-handoff/SKILL.md) | Capture the conversation to `.claude/handoff.md` + emit a restart prompt for a clean `/clear` | ✓ | — |
 
 ### The "ship a release" chain
 
